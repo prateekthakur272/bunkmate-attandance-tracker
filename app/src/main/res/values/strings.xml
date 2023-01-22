@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BunkMate</string>
+    <string name="title">Title</string>
+    <string name="press_if_not_attended">press if not attended</string>
+    <string name="percentage">Percentage</string>
+    <string name="press_if_attended">press_if_attended</string>
 </resources>
