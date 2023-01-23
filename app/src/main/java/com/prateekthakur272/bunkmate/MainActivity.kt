@@ -10,23 +10,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import com.prateekthakur272.bunkmate.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var itemView:RecyclerView
+    private lateinit var binding:ActivityMainBinding
     private lateinit var itemAdapter:ItemAdapter
     private lateinit var addItemDialog:Dialog
     private lateinit var itemDatabaseHelper: ItemDatabaseHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         itemDatabaseHelper = ItemDatabaseHelper(this)
-        itemView = findViewById(R.id.item_view)
 
         itemAdapter = ItemAdapter(this)
         itemAdapter.items = itemDatabaseHelper.getArrayList()
-        itemView.adapter = itemAdapter
-        itemView.layoutManager = LinearLayoutManager(this)
+        binding.itemView.adapter = itemAdapter
+        binding.itemView.layoutManager = LinearLayoutManager(this)
 
         addItemDialog = Dialog(this)
         addItemDialog.setCancelable(false)
@@ -39,10 +40,10 @@ class MainActivity : AppCompatActivity() {
                 itemDatabaseHelper.addItem(Item(subjectName.text.toString().trim()))
                 addItemDialog.dismiss()
                 onRestart()
-                Snackbar.make(itemView, "Added", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.itemView, "Added", Snackbar.LENGTH_SHORT).show()
             }
             else {
-                Snackbar.make(itemView, "Enter a valid subject name", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.itemView, "Enter a valid subject name", Snackbar.LENGTH_SHORT).show()
             }
             subjectName.text.clear()
         }
@@ -71,6 +72,6 @@ class MainActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
         itemAdapter.items = itemDatabaseHelper.getArrayList()
-        itemView.adapter = itemAdapter
+        binding.itemView.adapter = itemAdapter
     }
 }
