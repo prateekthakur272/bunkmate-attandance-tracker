@@ -30,7 +30,7 @@ class ItemAdapter(context:Context):RecyclerView.Adapter<ItemAdapter.ViewHolder>(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = items[position].title
-        holder.percentage.text = items[position].percentage.toString()
+        holder.percentage.text = items[position].attendance.toString()
 
         holder.item.setOnClickListener {
             Snackbar.make(holder.item,items[position].title,Snackbar.LENGTH_SHORT).show()

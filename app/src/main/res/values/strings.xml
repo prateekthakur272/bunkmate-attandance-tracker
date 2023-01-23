@@ -4,4 +4,6 @@
     <string name="press_if_not_attended">press if not attended</string>
     <string name="percentage">Percentage</string>
     <string name="press_if_attended">press_if_attended</string>
+    <string name="add_subject">Add subject</string>
+    <string name="about">About</string>
 </resources>
