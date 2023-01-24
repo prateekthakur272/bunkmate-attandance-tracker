@@ -33,6 +33,8 @@ class ItemDatabaseHelper(context: Context):SQLiteOpenHelper(context, DB_NAME,nul
         val db = this.writableDatabase
         val cv = ContentValues()
         cv.put(COLUMN_SUBJECT_NAME,item.title)
+        cv.put(COLUMN_ATTENDED,item.lectureAttended)
+        cv.put(COLUMN_TOTAL,item.totalLectures)
         db.insert(TABLE_NAME,null,cv)
     }
     fun markAttendance(id:Int,attended:Boolean = false){
