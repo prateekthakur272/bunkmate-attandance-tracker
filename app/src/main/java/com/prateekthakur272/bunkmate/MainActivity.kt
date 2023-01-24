@@ -1,11 +1,14 @@
 package com.prateekthakur272.bunkmate
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -18,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var itemAdapter:ItemAdapter
     private lateinit var addItemDialog:Dialog
     private lateinit var itemDatabaseHelper: ItemDatabaseHelper
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -51,6 +55,12 @@ class MainActivity : AppCompatActivity() {
             subjectName.text.clear()
             addItemDialog.cancel()
         }
+        with(binding.noItemMessage){
+            if (itemAdapter.itemCount==0)
+                this.visibility = View.VISIBLE
+            else
+                this.visibility = View.GONE
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
@@ -73,5 +83,12 @@ class MainActivity : AppCompatActivity() {
         super.onRestart()
         itemAdapter.items = itemDatabaseHelper.getArrayList()
         binding.itemView.adapter = itemAdapter
+
+        with(binding.noItemMessage){
+            if (itemAdapter.itemCount==0)
+                this.visibility = View.VISIBLE
+            else
+                this.visibility = View.GONE
+        }
     }
 }

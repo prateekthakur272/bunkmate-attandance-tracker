@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">BunkMate</string>
     <string name="title">Title</string>
+    <string name="percent_attendance">%.2f%%</string>
     <string name="press_if_not_attended">press if not attended</string>
     <string name="percentage">Percentage</string>
     <string name="press_if_attended">press_if_attended</string>
     <string name="add_subject">Add subject</string>
     <string name="about">About</string>
+    <string name="total_lectures_conducted">Total lectures conducted: %d</string>
+    <string name="total_lectures_attended">Total lectures attended: %d</string>
+    <string name="delete_item">delete item</string>
+    <string name="there_are_no_items_to_track">There are no items to track🙂</string>
 </resources>
