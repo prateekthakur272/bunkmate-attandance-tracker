@@ -1,11 +1,15 @@
 package com.prateekthakur272.bunkmate
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -18,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var itemAdapter:ItemAdapter
     private lateinit var addItemDialog:Dialog
     private lateinit var itemDatabaseHelper: ItemDatabaseHelper
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -35,21 +40,42 @@ class MainActivity : AppCompatActivity() {
         val addButton:MaterialButton = addItemDialog.findViewById(R.id.button_add)
         val cancelButton:MaterialButton = addItemDialog.findViewById(R.id.button_cancel)
         val subjectName:EditText = addItemDialog.findViewById(R.id.subject_name)
+        val classesAttended:EditText = addItemDialog.findViewById(R.id.lectures_attended)
+        val classesConducted:EditText = addItemDialog.findViewById(R.id.lectures_conducted)
         addButton.setOnClickListener {
-            if (subjectName.text.isNotBlank()) {
-                itemDatabaseHelper.addItem(Item(subjectName.text.toString().trim()))
+
+            val classesConductedInput = if (classesConducted.text.isEmpty()) 0 else classesConducted.text.toString().toInt()
+            val classesAttendedInput = if (classesAttended.text.isEmpty()) 0 else classesAttended.text.toString().toInt()
+
+            if (subjectName.text.isBlank()) {
+                Toast.makeText(this,"Subject name cannot be empty",Toast.LENGTH_SHORT).show()
+            }
+            else if (classesConductedInput < classesAttendedInput){
+                Toast.makeText(this,"Classes conducted should be greater than classes attended",Toast.LENGTH_LONG).show()
+                classesAttended.text.clear()
+                classesConducted.text.clear()
+            }
+            else {
+                itemDatabaseHelper.addItem(Item(subjectName.text.toString().trim(),classesAttendedInput,classesConductedInput))
                 addItemDialog.dismiss()
                 onRestart()
                 Snackbar.make(binding.itemView, "Added", Snackbar.LENGTH_SHORT).show()
+                subjectName.text.clear()
+                classesAttended.text.clear()
+                classesConducted.text.clear()
             }
-            else {
-                Snackbar.make(binding.itemView, "Enter a valid subject name", Snackbar.LENGTH_SHORT).show()
-            }
-            subjectName.text.clear()
         }
         cancelButton.setOnClickListener {
             subjectName.text.clear()
+            classesAttended.text.clear()
+            classesConducted.text.clear()
             addItemDialog.cancel()
+        }
+        with(binding.noItemMessage){
+            if (itemAdapter.itemCount==0)
+                this.visibility = View.VISIBLE
+            else
+                this.visibility = View.GONE
         }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -73,5 +99,12 @@ class MainActivity : AppCompatActivity() {
         super.onRestart()
         itemAdapter.items = itemDatabaseHelper.getArrayList()
         binding.itemView.adapter = itemAdapter
+
+        with(binding.noItemMessage){
+            if (itemAdapter.itemCount==0)
+                this.visibility = View.VISIBLE
+            else
+                this.visibility = View.GONE
+        }
     }
 }
