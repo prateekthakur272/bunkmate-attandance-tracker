@@ -3,7 +3,7 @@ track collage lecture attendance and decide whether bunk or not
 
 click to download 👉🏻 https://drive.google.com/file/d/1S9-IYklcV9HbyJ_KDAfUDYxqNISVEnmT/view?usp=share_link
 
-![github](https://user-images.githubusercontent.com/67188426/214272008-6c7a7d23-f6f6-46b8-8021-66106f0d15b2.png)
+![github](https://user-images.githubusercontent.com/67188426/214272908-16c122b4-47f6-46e2-80f7-a9f045eacfd2.jpeg)
 
 ##  About Me 🚀
 Hi, I'm Prateek Thakur! 👋
