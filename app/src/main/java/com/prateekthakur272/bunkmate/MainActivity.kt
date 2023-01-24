@@ -2,16 +2,15 @@ package com.prateekthakur272.bunkmate
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.prateekthakur272.bunkmate.databinding.ActivityMainBinding
@@ -21,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private lateinit var itemAdapter:ItemAdapter
     private lateinit var addItemDialog:Dialog
+    private lateinit var aboutDialog: Dialog
     private lateinit var itemDatabaseHelper: ItemDatabaseHelper
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +71,15 @@ class MainActivity : AppCompatActivity() {
             classesConducted.text.clear()
             addItemDialog.cancel()
         }
+        aboutDialog = Dialog(this)
+        aboutDialog.setContentView(R.layout.about_dialog_layout)
+        aboutDialog.setCancelable(false)
+        aboutDialog.findViewById<MaterialButton>(R.id.contact_me).setOnClickListener {
+            startActivity(Intent(this,ContactMeActivity::class.java))
+        }
+        aboutDialog.findViewById<MaterialButton>(R.id.cancel).setOnClickListener {
+            aboutDialog.dismiss()
+        }
         with(binding.noItemMessage){
             if (itemAdapter.itemCount==0)
                 this.visibility = View.VISIBLE
@@ -90,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.about -> {
-
+                aboutDialog.show()
             }
         }
         return super.onOptionsItemSelected(item)
