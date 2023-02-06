@@ -7,7 +7,8 @@
         android:id="@+id/add_item"/>
     <item android:title="@string/history"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_history"/>
+        android:icon="@drawable/ic_history"
+        android:id="@+id/history"/>
     <item android:title="@string/about"
         app:showAsAction="never"
         android:id="@+id/about"/>
