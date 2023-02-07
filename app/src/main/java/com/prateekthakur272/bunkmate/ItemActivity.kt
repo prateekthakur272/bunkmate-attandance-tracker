@@ -6,7 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.snackbar.Snackbar
+import com.prateekthakur272.bunkmate.database.Item
+import com.prateekthakur272.bunkmate.database.ItemDatabaseHelper
 import com.prateekthakur272.bunkmate.databinding.ActivityItemBinding
 import org.eazegraph.lib.models.PieModel
 import kotlin.math.roundToInt
@@ -14,7 +15,7 @@ import kotlin.math.roundToInt
 class ItemActivity : AppCompatActivity() {
     private lateinit var binding: ActivityItemBinding
     private lateinit var itemDatabaseHelper: ItemDatabaseHelper
-    private lateinit var subject:Item
+    private lateinit var subject: Item
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityItemBinding.inflate(layoutInflater)

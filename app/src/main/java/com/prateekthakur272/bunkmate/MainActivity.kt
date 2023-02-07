@@ -13,12 +13,15 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import com.prateekthakur272.bunkmate.adapters.ItemAdapter
+import com.prateekthakur272.bunkmate.database.Item
+import com.prateekthakur272.bunkmate.database.ItemDatabaseHelper
 import com.prateekthakur272.bunkmate.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityMainBinding
-    private lateinit var itemAdapter:ItemAdapter
+    private lateinit var itemAdapter: ItemAdapter
     private lateinit var addItemDialog:Dialog
     private lateinit var aboutDialog: Dialog
     private lateinit var itemDatabaseHelper: ItemDatabaseHelper
@@ -100,6 +103,11 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.about -> {
                 aboutDialog.show()
+                return true
+            }
+            R.id.history ->{
+                startActivity(Intent(this,HistoryActivity::class.java))
+                return true
             }
         }
         return super.onOptionsItemSelected(item)

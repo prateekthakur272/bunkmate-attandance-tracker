@@ -1,22 +1,19 @@
-package com.prateekthakur272.bunkmate
+package com.prateekthakur272.bunkmate.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.os.SystemClock
 import android.view.LayoutInflater
-import android.view.MenuInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import com.prateekthakur272.bunkmate.database.Item
+import com.prateekthakur272.bunkmate.ItemActivity
+import com.prateekthakur272.bunkmate.database.ItemDatabaseHelper
+import com.prateekthakur272.bunkmate.R
 import com.prateekthakur272.bunkmate.databinding.ItemLayoutBinding
-import kotlinx.coroutines.delay
-import org.eazegraph.lib.charts.PieChart
-import org.eazegraph.lib.models.PieModel
 import kotlin.math.roundToInt
 
 class ItemAdapter(private val context:Context):RecyclerView.Adapter<ItemAdapter.ViewHolder>(){
@@ -40,7 +37,7 @@ class ItemAdapter(private val context:Context):RecyclerView.Adapter<ItemAdapter.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.title.text = items[position].title
-        holder.percentage.text = context.getString(R.string.percent_attendance,items[position].attendance)
+        holder.percentage.text = context.getString(R.string.percent_attendance,items[position].attendance.roundToInt())
         holder.markButton.setOnClickListener {
             itemDatabaseHelper.markAttendance(items[position].id,true)
             items = itemDatabaseHelper.getArrayList()
@@ -52,7 +49,7 @@ class ItemAdapter(private val context:Context):RecyclerView.Adapter<ItemAdapter.
             notifyItemChanged(position)
         }
         holder.item.setOnClickListener {
-            val itemIntent = Intent(context,ItemActivity::class.java)
+            val itemIntent = Intent(context, ItemActivity::class.java)
             itemIntent.putExtra("id",items[position].id)
             context.startActivity(itemIntent)
         }
