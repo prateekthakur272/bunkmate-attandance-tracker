@@ -1,4 +1,4 @@
-package com.prateekthakur272.bunkmate
+package com.prateekthakur272.bunkmate.database
 
 data class Item(val title:String,var lectureAttended:Int = 0,var totalLectures:Int = 0){
     var id: Int = -1

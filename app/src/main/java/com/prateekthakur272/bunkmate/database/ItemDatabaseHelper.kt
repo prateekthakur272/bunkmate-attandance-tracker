@@ -1,4 +1,4 @@
-package com.prateekthakur272.bunkmate
+package com.prateekthakur272.bunkmate.database
 
 import android.content.ContentValues
 import android.content.Context
@@ -44,27 +44,27 @@ class ItemDatabaseHelper(context: Context):SQLiteOpenHelper(context, DB_NAME,nul
         finally {
             if (db!!.isOpen)
                 Log.d(TAG,"Database is open")
-
-            Log.i(TAG,createAttendanceTable)
-            Log.i(TAG,createHistoryTable)
-            Log.i(TAG,createAddHistoryAttendedTrigger)
-            Log.i(TAG,createAddHistoryMissedTrigger)
-
         }
-
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
 
     }
 
-    fun addItem(item:Item) {
+    fun addItem(item: Item) {
         val db = this.writableDatabase
         val cv = ContentValues()
-        cv.put(COLUMN_SUBJECT_NAME,item.title)
-        cv.put(COLUMN_ATTENDED,item.lectureAttended)
-        cv.put(COLUMN_TOTAL,item.totalLectures)
-        db.insert(TABLE_ATTENDANCE,null,cv)
+        try{
+            cv.put(COLUMN_SUBJECT_NAME,item.title)
+            cv.put(COLUMN_ATTENDED,item.lectureAttended)
+            cv.put(COLUMN_TOTAL,item.totalLectures)
+            db.insert(TABLE_ATTENDANCE,null,cv)
+        }catch (e:java.lang.RuntimeException){
+            Log.d(TAG,"Some error occurred while inserting into tables")
+        }
+        finally {
+            db.close()
+        }
     }
     fun markAttendance(id:Int,attended:Boolean = false){
         val db = this.writableDatabase
@@ -73,27 +73,37 @@ class ItemDatabaseHelper(context: Context):SQLiteOpenHelper(context, DB_NAME,nul
             else "update $TABLE_ATTENDANCE set $COLUMN_TOTAL = $COLUMN_TOTAL+1 where $COLUMN_SUBJECT_ID = $id"
             db.execSQL(query)
         }catch (e:java.lang.RuntimeException){
-            Log.d(TAG,"table not found")
+            Log.d(TAG,"error while updating values")
+        }finally {
+            db.close()
         }
-        db.close()
     }
     fun deleteItem(id: Int){
         val query = "delete from $TABLE_ATTENDANCE where $COLUMN_SUBJECT_ID = $id"
         try {
             this.writableDatabase.execSQL(query)
         }catch (e:java.lang.RuntimeException){
-            Log.d(TAG,"table not found")
+            Log.d(TAG,"error while deleting a row from table")
         }
     }
     fun getItem(id: Int): Item {
         val query = "select * from $TABLE_ATTENDANCE where $COLUMN_SUBJECT_ID = $id"
         val db = this.readableDatabase
-        val cursor = db.rawQuery(query,null)
-        cursor.moveToFirst()
-        val item = Item(cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getInt(3))
-        cursor.close()
-        db.close()
-        return item
+        try {
+            val cursor = db.rawQuery(query,null)
+            cursor.moveToFirst()
+            val item = Item(cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getInt(3))
+            cursor.close()
+            db.close()
+            return item
+        }
+        catch (e:java.lang.RuntimeException){
+            db.close()
+        }finally {
+            if (db.isOpen)
+                db.close()
+        }
+        return Item(-1,"NO SUBJECT",0,0)
     }
     fun getArrayList():ArrayList<Item>{
         val itemList = mutableListOf<Item>()
@@ -106,10 +116,12 @@ class ItemDatabaseHelper(context: Context):SQLiteOpenHelper(context, DB_NAME,nul
                     itemList.add(Item(cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getInt(3)))
                 }while (cursor.moveToNext())
             }
+            cursor.close()
         }catch (e:java.lang.RuntimeException){
-            Log.d(TAG,"table not found")
+            Log.d(TAG,"error while fetching data from table")
+        }finally {
+            db.close()
         }
-        db.close()
         return itemList as ArrayList<Item>
     }
 }
