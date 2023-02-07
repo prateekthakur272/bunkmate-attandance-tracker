@@ -11,8 +11,8 @@ android {
         applicationId "com.prateekthakur272.bunkmate"
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 2023_02
+        versionName "2023.02"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
