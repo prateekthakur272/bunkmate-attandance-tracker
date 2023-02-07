@@ -1,12 +1,14 @@
 package com.prateekthakur272.bunkmate.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.prateekthakur272.bunkmate.R
 import com.prateekthakur272.bunkmate.database.HistoryItem
 import com.prateekthakur272.bunkmate.databinding.HistoryItemLayoutBinding
 
-class HistoryItemAdapter(var historyItemList: ArrayList<HistoryItem>):RecyclerView.Adapter<HistoryItemAdapter.ViewHolder>(){
+class HistoryItemAdapter(val context: Context, var historyItemList: ArrayList<HistoryItem>):RecyclerView.Adapter<HistoryItemAdapter.ViewHolder>(){
     class ViewHolder(itemView: HistoryItemLayoutBinding) :RecyclerView.ViewHolder(itemView.root){
         val binder = itemView
     }
@@ -22,6 +24,10 @@ class HistoryItemAdapter(var historyItemList: ArrayList<HistoryItem>):RecyclerVi
             title.text = historyItemList[position].title
             dateTime.text = historyItemList[position].dateTime
             status.text = historyItemList[position].status
+            if (historyItemList[position].status == "Attended")
+                status.setTextColor(context.getColor(R.color.green))
+            else if(historyItemList[position].status == "Missed")
+                status.setTextColor(context.getColor(R.color.red))
         }
     }
 }

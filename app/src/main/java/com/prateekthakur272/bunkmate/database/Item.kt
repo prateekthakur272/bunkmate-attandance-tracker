@@ -7,6 +7,6 @@ data class Item(val title:String,var lectureAttended:Int = 0,var totalLectures:I
         this.id = id
         this.lectureAttended = lectureAttended
         this.totalLectures = totalLectures
-        this.attendance = if (totalLectures!=0) (lectureAttended.toFloat()/totalLectures)*100 else 100f
+        this.attendance = if (totalLectures!=0) (lectureAttended.toFloat()/totalLectures)*100 else 0f
     }
 }
