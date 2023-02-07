@@ -10,7 +10,7 @@
     <string name="total_lectures_conducted">Total lectures conducted: %d</string>
     <string name="total_lectures_attended">Total lectures attended: %d</string>
     <string name="delete_item">delete item</string>
-    <string name="there_are_no_items_to_track">There are no items to track🙂</string>
+    <string name="there_are_no_items_to_track">There are no items to track 🙂</string>
     <string name="added">Added</string>
     <string name="enter_a_valid_subject_name">Enter a valid subject name</string>
     <string name="deleted">Deleted</string>
@@ -26,4 +26,5 @@
     <string name="history">History</string>
     <string name="date_time">Date Time</string>
     <string name="status">Status</string>
+    <string name="title_activity_history">HistoryActivity</string>
 </resources>
