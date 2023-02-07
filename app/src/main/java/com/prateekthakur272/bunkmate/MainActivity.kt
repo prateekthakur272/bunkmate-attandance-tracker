@@ -103,9 +103,11 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.about -> {
                 aboutDialog.show()
+                return true
             }
             R.id.history ->{
-
+                startActivity(Intent(this,HistoryActivity::class.java))
+                return true
             }
         }
         return super.onOptionsItemSelected(item)
