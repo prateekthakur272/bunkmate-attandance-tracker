@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.prateekthakur272.bunkmate.database.Item
 import com.prateekthakur272.bunkmate.ItemActivity
 import com.prateekthakur272.bunkmate.database.ItemDatabaseHelper
@@ -41,11 +42,13 @@ class ItemAdapter(private val context:Context):RecyclerView.Adapter<ItemAdapter.
         holder.markButton.setOnClickListener {
             itemDatabaseHelper.markAttendance(items[position].id,true)
             items = itemDatabaseHelper.getArrayList()
+            Snackbar.make(holder.item,"${items[position].title} Marked as Attended",Snackbar.LENGTH_SHORT).show()
             notifyItemChanged(position)
         }
         holder.cancelButton.setOnClickListener {
             itemDatabaseHelper.markAttendance(items[position].id,false)
             items = itemDatabaseHelper.getArrayList()
+            Snackbar.make(holder.item,"${items[position].title} Marked as Missed",Snackbar.LENGTH_SHORT).show()
             notifyItemChanged(position)
         }
         holder.item.setOnClickListener {
