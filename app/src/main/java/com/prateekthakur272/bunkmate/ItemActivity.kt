@@ -1,6 +1,5 @@
 package com.prateekthakur272.bunkmate
 
-import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -41,7 +40,7 @@ class ItemActivity : AppCompatActivity() {
         binding.lecturesAttended.text = getString(R.string.total_lectures_attended,subject.lectureAttended)
         binding.lecturesConducted.text = getString(R.string.total_lectures_conducted,subject.totalLectures)
         binding.percentageAttendance.text = subject.attendance.roundToInt().toString()
-        if (subject.attendance<75)
+        if (subject.attendance<=75)
             binding.percentageAttendance.setTextColor(getColor(R.color.red))
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -54,11 +53,11 @@ class ItemActivity : AppCompatActivity() {
                 val dialog = AlertDialog.Builder(this)
                 dialog.setTitle("Do you want to delete ${subject.title}?")
                 dialog.setCancelable(false)
-                dialog.setPositiveButton("Delete", DialogInterface.OnClickListener { _, i ->
+                dialog.setPositiveButton("Delete") { _, i ->
                     itemDatabaseHelper.deleteItem(subject.id)
                     finish()
-                })
-                dialog.setNegativeButton("No", DialogInterface.OnClickListener { _, _ ->})
+                }
+                dialog.setNegativeButton("No") { _, _ -> }
                 dialog.create().show()
                 return true
             }
