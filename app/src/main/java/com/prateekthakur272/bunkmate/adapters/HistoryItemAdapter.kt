@@ -2,6 +2,7 @@ package com.prateekthakur272.bunkmate.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.prateekthakur272.bunkmate.R
@@ -12,11 +13,9 @@ class HistoryItemAdapter(val context: Context, var historyItemList: ArrayList<Hi
     class ViewHolder(itemView: HistoryItemLayoutBinding) :RecyclerView.ViewHolder(itemView.root){
         val binder = itemView
     }
-    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(HistoryItemLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
-
     override fun getItemCount(): Int = historyItemList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -28,6 +27,9 @@ class HistoryItemAdapter(val context: Context, var historyItemList: ArrayList<Hi
                 status.setTextColor(context.getColor(R.color.green))
             else if(historyItemList[position].status == "Missed")
                 status.setTextColor(context.getColor(R.color.red))
+        }
+        if (historyItemList.all { it.title == historyItemList[position].title }) {
+            holder.binder.title.visibility = View.GONE
         }
     }
 }

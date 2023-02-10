@@ -145,4 +145,25 @@ class ItemDatabaseHelper(context: Context):SQLiteOpenHelper(context, DB_NAME,nul
         }
         return history as ArrayList
     }
+    fun getHistory(title:String): java.util.ArrayList<HistoryItem> {
+        val history = mutableListOf<HistoryItem>()
+        val query = "select * from (select a.$COLUMN_SUBJECT_NAME,h.$COLUMN_DATE_TIME,h.$COLUMN_STATUS from $TABLE_HISTORY h join $TABLE_ATTENDANCE a where h.$COLUMN_SUBJECT_ID = a.$COLUMN_SUBJECT_ID) where $COLUMN_SUBJECT_NAME = '$title'"
+        val db = readableDatabase
+        try{
+            val cursor = db.rawQuery(query,null)
+            if(cursor.moveToFirst())
+                do {
+                    with(cursor){
+                        history.add(0, HistoryItem(getString(0),getString(1),getString(2)))
+                    }
+                }while (cursor.moveToNext())
+            cursor.close()
+        }catch (e:java.lang.RuntimeException){
+            Log.d(TAG,"error while fetching data from table")
+        }
+        finally {
+            db.close()
+        }
+        return history as ArrayList
+    }
 }

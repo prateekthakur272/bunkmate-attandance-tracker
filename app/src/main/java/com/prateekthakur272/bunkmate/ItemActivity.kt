@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.prateekthakur272.bunkmate.adapters.HistoryItemAdapter
 import com.prateekthakur272.bunkmate.database.Item
 import com.prateekthakur272.bunkmate.database.ItemDatabaseHelper
 import com.prateekthakur272.bunkmate.databinding.ActivityItemBinding
@@ -24,24 +27,37 @@ class ItemActivity : AppCompatActivity() {
         itemDatabaseHelper = ItemDatabaseHelper(this)
         subject = itemDatabaseHelper.getItem(intent.getIntExtra("id",-1))
         supportActionBar?.title = subject.title
-        binding.pieChart.addPieSlice(
-            PieModel(
-                (subject.totalLectures-subject.lectureAttended).toFloat(),
-                this.getColor(R.color.red)
+        if (subject.totalLectures!=0) {
+            binding.pieChart.addPieSlice(
+                PieModel(
+                    (100 - subject.attendance),
+                    this.getColor(R.color.red)
+                )
             )
-        )
-        binding.pieChart.addPieSlice(
-            PieModel(
-                subject.lectureAttended.toFloat(),
-                this.getColor(R.color.green)
+            binding.pieChart.addPieSlice(
+                PieModel(
+                    subject.attendance,
+                    this.getColor(R.color.green)
+                )
             )
-        )
+        }else{
+            binding.pieChart.addPieSlice(
+                PieModel(
+                    100f,
+                    this.getColor(R.color.black)
+                )
+            )
+            binding.percentageAttendance.visibility = View.GONE
+        }
 
         binding.lecturesAttended.text = getString(R.string.total_lectures_attended,subject.lectureAttended)
         binding.lecturesConducted.text = getString(R.string.total_lectures_conducted,subject.totalLectures)
         binding.percentageAttendance.text = subject.attendance.roundToInt().toString()
-        if (subject.attendance<=75)
+        if (subject.attendance<75)
             binding.percentageAttendance.setTextColor(getColor(R.color.red))
+        val adapter = HistoryItemAdapter(this,itemDatabaseHelper.getHistory(subject.title))
+        binding.historyView.adapter = adapter
+        binding.historyView.layoutManager = LinearLayoutManager(this)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.item_menu,menu)
