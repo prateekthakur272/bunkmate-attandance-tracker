@@ -29,8 +29,8 @@ class ItemDatabaseHelper(context: Context):SQLiteOpenHelper(context, DB_NAME,nul
     override fun onCreate(db: SQLiteDatabase?) {
         val createAttendanceTable = "create table $TABLE_ATTENDANCE($COLUMN_SUBJECT_ID integer primary key autoincrement ,$COLUMN_SUBJECT_NAME varchar(30) not null,$COLUMN_ATTENDED integer default 0,$COLUMN_TOTAL integer default 0);"
         val createHistoryTable = "create table $TABLE_HISTORY($COLUMN_DATE_TIME text primary key,$COLUMN_SUBJECT_ID integer references $TABLE_ATTENDANCE($COLUMN_SUBJECT_ID) on delete cascade,$COLUMN_STATUS text);"
-        val createAddHistoryAttendedTrigger = "create trigger $TRIGGER_ADD_HISTORY_ATTENDED after update on $TABLE_ATTENDANCE when new.$COLUMN_ATTENDED > old.$COLUMN_ATTENDED and new.$COLUMN_TOTAL > old.$COLUMN_TOTAL begin insert into $TABLE_HISTORY values(CURRENT_TIMESTAMP,old.subject_id,'Attended');end;"
-        val createAddHistoryMissedTrigger = "create trigger $TRIGGER_ADD_HISTORY_MISSED after update on $TABLE_ATTENDANCE when new.$COLUMN_ATTENDED = old.$COLUMN_ATTENDED and new.$COLUMN_TOTAL > old.$COLUMN_TOTAL begin insert into $TABLE_HISTORY values(CURRENT_TIMESTAMP,old.subject_id,'Missed');end;"
+        val createAddHistoryAttendedTrigger = "create trigger $TRIGGER_ADD_HISTORY_ATTENDED after update on $TABLE_ATTENDANCE when new.$COLUMN_ATTENDED > old.$COLUMN_ATTENDED and new.$COLUMN_TOTAL > old.$COLUMN_TOTAL begin insert into $TABLE_HISTORY values(datetime('now','localtime'),old.subject_id,'Attended');end;"
+        val createAddHistoryMissedTrigger = "create trigger $TRIGGER_ADD_HISTORY_MISSED after update on $TABLE_ATTENDANCE when new.$COLUMN_ATTENDED = old.$COLUMN_ATTENDED and new.$COLUMN_TOTAL > old.$COLUMN_TOTAL begin insert into $TABLE_HISTORY values(datetime('now','localtime'),old.subject_id,'Missed');end;"
         try {
             with(db!!){
                 execSQL(createAttendanceTable)
