@@ -28,7 +28,8 @@ class HistoryItemAdapter(val context: Context, var historyItemList: ArrayList<Hi
             else if(historyItemList[position].status == "Missed")
                 status.setTextColor(context.getColor(R.color.red))
         }
-        if (historyItemList.all { it.title == historyItemList[position].title })
+        if (historyItemList.all { it.title == historyItemList[position].title }) {
             holder.binder.title.visibility = View.GONE
+        }
     }
 }
