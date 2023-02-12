@@ -4,7 +4,7 @@ track collage lecture attendance
 click to download 👉🏻 https://drive.google.com/file/d/1TY_ITnQK8-Yb-__GfYmXP3SwBcyTYFnm/view?usp=sharing
 <br>Version 2023.02
 
-![github](https://user-images.githubusercontent.com/67188426/214272908-16c122b4-47f6-46e2-80f7-a9f045eacfd2.jpeg)
+![github](https://user-images.githubusercontent.com/67188426/218312952-4e1445ab-183b-48a3-bfbb-999135431852.jpeg)
 
 ##  About App📱
 This app is built using Kotlin and jetpeck compose,
